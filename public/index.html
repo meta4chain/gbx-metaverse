@@ -69,45 +69,66 @@
 			<script>	
 				function permissionIOS(){
 
-				// let video = document.getElementById("video1")
-
-				if (typeof DeviceMotionEvent.requestPermission === 'function') {
-					console.log("Request permissionIOS")
-					// Handle iOS 13+ devices.
-				DeviceMotionEvent.requestPermission()
-					.then((state) => {
-					if (state === 'granted') {
-					//  this.controls = new THREE.DeviceOrientationControls( this.camera );    
-					confirm("Permission is granted for DeviceMotionEvent");
-					window.deviceMotionGranted = true;
-					console.log("Granted device motion")
-					
-					// video = document.getElementById("video1")
-					// video.muted = false;
-					// video.volume = 0;
-					// console.log(video.muted)
-					document.getElementById("boxPermissionRequest").style.display = "none";
-					
-					} else {
-						console.log("Request rejected")
-
-						console.error('Request to access the orientation was rejected');
-						window.deviceMotionGranted = false;
-
-					}
-					})
-					.catch(console.error);
-					}
-					else{
-						console.log("desktop version")
+			if(detectiOS()){		
+					let video = document.getElementById("video1")
+					if (typeof DeviceMotionEvent.requestPermission == 'function') {
+						console.log("Request permissionIOS")
+						// Handle iOS 13+ devices.
+					DeviceMotionEvent.requestPermission()
+						.then((state) => {
+						if (state === 'granted') {
+						//  this.controls = new THREE.DeviceOrientationControls( this.camera );    
+						confirm("Permission is granted for DeviceMotionEvent");
+						window.deviceMotionGranted = true;
+						console.log("Granted device motion")
+						
 						// video = document.getElementById("video1")
 						// video.muted = false;
 						// video.volume = 0;
 						// console.log(video.muted)
 						document.getElementById("boxPermissionRequest").style.display = "none";
+						
+						} else {
+							console.log("Request rejected")
 
-					}
+							console.error('Request to access the orientation was rejected');
+							window.deviceMotionGranted = false;
+
+						}
+						})
+						.catch(console.error);
+						}
 				}
+				else{
+					console.log("desktop version")
+					// video = document.getElementById("video1")
+					// video.muted = false;
+					// video.volume = 0;
+					// console.log(video.muted)
+					document.getElementById("boxPermissionRequest").style.display = "none";
+
+				}
+				}
+
+				/**
+				 * Detect if the device is an IOS mobile device
+				 * @method
+				 * @returns {Boolean} true if the device is a mobile device
+				 */
+
+				function detectiOS() {
+						return [
+						'iPad Simulator',
+						'iPhone Simulator',
+						'iPod Simulator',
+						'iPad',
+						'iPhone',
+						'iPod'
+						].includes(navigator.platform)
+						// iPad on iOS 13 detection
+						|| (navigator.userAgent.includes("Mac") && "ontouchend" in document)
+					}
+
 				</script>  
 
 
